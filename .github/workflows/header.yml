@@ -1,0 +1,49 @@
+name: Generate Header SVG
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # 默认用内置 GITHUB_TOKEN，不用配 PAT
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: header-generator/package-lock.json
+
+      - name: Install dependencies
+        working-directory: header-generator
+        run: npm ci
+
+      - name: Generate header.svg
+        working-directory: header-generator
+        env:
+          GH_USER: MLSTZIRAN # 固定用户；想跟随仓库属主可改回 ${{ github.repository_owner }}
+          LANG: zh
+          THEME: light # 文字用原仓示例的浅色配色，贡献格子固定用深色绿
+          IMAGE: "" # 用渐变光斑背景，不用 bg.png
+          TITLE: 你好啊
+          NAME_A: MLSTZIRAN
+          NAME_B: MLSTZIRAN # 与 NAME_A 相同 → 固定显示，不再轮播
+          OVERLAY: 30
+        run: npm run generate
+
+      - name: Commit and Push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 内置令牌，提交推送用它，无需 PAT
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash
+          git add header.svg
+          git diff-index --quiet HEAD || git commit -m "Update header.svg"
+          git push
