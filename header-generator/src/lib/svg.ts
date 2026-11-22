@@ -203,8 +203,8 @@ export async function buildSvg(o: Options, d: GhData, deps?: Deps): Promise<stri
 
     const orb = (cx: number, cy: number, r: number, c: string, dx: number, dy: number) =>
       `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}"><animate attributeName="cx" dur="${T}s" repeatCount="indefinite" values="${cx};${cx + dx};${cx}"/><animate attributeName="cy" dur="${T}s" repeatCount="indefinite" values="${cy};${cy + dy};${cy}"/></circle>`;
-    // 浅色底 + 全屏柔彩光斑；色相按左→右分布，避免"从上到下"的渐变感，深字可读
-    bg = `<rect width="${W}" height="${H}" fill="#f6f8fa"/><g filter="url(#soft)">${orb(170, 280, 430, "#c4b5fd", 120, 40)}${orb(620, 180, 380, "#f9a8d4", -120, 60)}${orb(1130, 330, 430, "#67e8f9", -100, -50)}${orb(430, 500, 320, "#fcd34d", 80, -40)}</g>`;
+    // 浅色底 + 全屏柔彩光斑（中深度饱和色，深字与浅灰元素对比清晰）；色相按左→右分布，避免"从上到下"的渐变感
+    bg = `<rect width="${W}" height="${H}" fill="#f6f8fa"/><g filter="url(#soft)">${orb(170, 280, 430, "#7b6cf6", 120, 40)}${orb(620, 180, 380, "#f0559f", -120, 60)}${orb(1130, 330, 430, "#17c3d8", -100, -50)}${orb(430, 500, 320, "#f59e0b", 80, -40)}</g>`;
   }
   const scrim = `<rect width="${W}" height="${H}" style="fill:var(--bg)" opacity="${(o.overlay / 100).toFixed(2)}"/>`;
 
@@ -399,8 +399,8 @@ export async function buildSvg(o: Options, d: GhData, deps?: Deps): Promise<stri
   /* ================= 样式 ================= */
   allText += "0123456789.:%@#-+*()/ ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   const fontCss = (await embedFontCss(allText)) ?? "";
-  // 文字等保持浅色主题原样（和仓库示例一致），贡献格子（l0-l4）单独用深色模式配色
-  const light = `--fg:#1f2328;--mu:#656d76;--bg:#ffffff;--gr:#2da44e;--l0:#262c36;--l1:#0e4429;--l2:#006d32;--l3:#26a641;--l4:#39d353;`;
+  // 浅色主题：文字等保持原样；贡献格子（l0-l4）用浅底专用色阶：浅灰空格 + 中深绿渐变，浅光斑底上清晰
+  const light = `--fg:#1f2328;--mu:#656d76;--bg:#ffffff;--gr:#2da44e;--l0:#e3e8ee;--l1:#4ac26b;--l2:#2da44e;--l3:#238636;--l4:#116329;`;
   const dark = `--fg:#f0f3f6;--mu:#9198a1;--bg:#0d1117;--gr:#3fb950;--l0:#262c36;--l1:#0e4429;--l2:#006d32;--l3:#26a641;--l4:#39d353;`;
   const themeCss =
     o.theme === "dark"
