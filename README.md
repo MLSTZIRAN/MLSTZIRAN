@@ -1,4 +1,4 @@
-<--
+<!--
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&pause=1000&center=true&vCenter=true&width=600&lines=Welcome+to+my+profile!;I'm+MLSTZIRAN.;Nice+to+meet+you." alt="Typing SVG" />
 </p>
