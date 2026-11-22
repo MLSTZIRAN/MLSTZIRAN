@@ -26,7 +26,7 @@ const opts: Options = {
   overlay: num(env.OVERLAY, 54),
   theme: env.THEME === "dark" || env.THEME === "auto" ? env.THEME : "light",
   lang: env.LANG === "zh" ? "zh" : "en",
-  nameColor: env.NAME_COLOR ?? "#ff8a65",
+  nameColor: env.NAME_COLOR ?? "#d9480f",
 };
 
 const user = env.GH_USER || env.GITHUB_REPOSITORY_OWNER || "MLSTZIRAN";
