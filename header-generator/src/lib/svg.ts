@@ -416,7 +416,7 @@ export async function buildSvg(o: Options, d: GhData, deps?: Deps): Promise<stri
 <title>${esc(o.title)} ${esc(o.prefix)} ${esc(o.nameA)} / ${esc(o.nameB)}</title>
 <style>${css}</style>
 <defs>${defs}</defs>
-<g clip-path="url(#canvas)"><g mask="url(#fadeM)">${bg}${scrim}</g></g>
+<g clip-path="url(#canvas)">${o.image ? `<g mask="url(#fadeM)">${bg}${scrim}</g>` : `<g>${bg}${scrim}</g>`}</g>
 <g>${globalFade}${fg}</g>
 </svg>`;
 }
