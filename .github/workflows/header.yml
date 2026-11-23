@@ -31,6 +31,7 @@ jobs:
       - name: Generate header.svg
         working-directory: header-generator
         env:
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_USER: MLSTZIRAN # 固定用户；想跟随仓库属主可改回 ${{ github.repository_owner }}
           LANG: zh
           THEME: light # 文字用原仓示例的浅色配色，贡献格子固定用深色绿
